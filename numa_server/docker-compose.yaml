@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  # Development services
+  postgres:
+    image: postgres:16.3
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: numa
+      POSTGRES_PASSWORD: "Aw3Oc3Il_-Afz21MosIaPAKcIG8GlAum"
+    volumes:
+      - numa_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - dev
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "PeABL4aVkgDyEnVQyvjpp7cUGDxnrgxd"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - dev
+
+  # Test services
+  postgres_test:
+    image: postgres:16.3
+    ports:
+      - '9090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: numa_test
+      POSTGRES_PASSWORD: "-PzoLHaLbCf83o5IHjLEZw4A4QZvrtst"
+    volumes:
+      - numa_test_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - test
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - '9091:6379'
+    command: redis-server --requirepass "rQKWuPXVg_-Hys8nar1lZnwlAlSBhzaE"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - test
+
+volumes:
+  numa_data:
+  numa_test_data:
